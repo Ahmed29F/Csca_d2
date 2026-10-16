@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CSCA Physics - Day 2: Laws of Motion | منصة الفيزياء التفاعلية</title>
+  <title>CSCA Physics - Day 2: Interactive Laws of Motion</title>
   <style>
     :root {
-      --bg-primary: #0b0f19;
-      --bg-card: #151c2c;
-      --bg-card-alt: #1e293b;
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
-      --accent-blue: #38bdf8;
+      --bg-main: #090d16;
+      --bg-card: #131b2e;
+      --bg-elevated: #1e293b;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent-cyan: #38bdf8;
       --accent-indigo: #6366f1;
-      --accent-green: #10b981;
+      --accent-emerald: #10b981;
       --accent-amber: #f59e0b;
-      --accent-red: #ef4444;
-      --border-color: #334155;
+      --accent-rose: #f43f5e;
+      --border-subtle: #334155;
       --radius: 14px;
     }
 
@@ -28,1081 +28,1478 @@
     }
 
     body {
-      background-color: var(--bg-primary);
-      color: var(--text-main);
-      line-height: 1.7;
-      padding-bottom: 60px;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.75;
+      padding-bottom: 80px;
     }
 
-    /* Sticky Gamification Header */
-    .top-bar {
+    /* Top Sticky Header */
+    .top-header {
       position: sticky;
       top: 0;
-      z-index: 1000;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-color);
+      z-index: 999;
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
       padding: 12px 24px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 15px;
+      gap: 16px;
     }
 
-    .brand-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--accent-blue);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .brand {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--accent-cyan);
     }
 
-    .progress-wrapper {
+    .progress-box {
       flex: 1;
       min-width: 220px;
-      max-width: 450px;
+      max-width: 420px;
     }
 
-    .progress-labels {
+    .progress-meta {
       display: flex;
       justify-content: space-between;
-      font-size: 0.85rem;
-      color: var(--text-muted);
+      font-size: 0.82rem;
+      color: var(--text-secondary);
       margin-bottom: 4px;
     }
 
-    .progress-track {
+    .progress-bar-bg {
       width: 100%;
       height: 10px;
-      background: var(--bg-card-alt);
+      background: var(--bg-elevated);
       border-radius: 999px;
       overflow: hidden;
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-subtle);
     }
 
-    .progress-fill {
+    .progress-bar-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--accent-indigo), var(--accent-blue), var(--accent-green));
-      transition: width 0.4s ease;
+      background: linear-gradient(90deg, var(--accent-indigo), var(--accent-cyan), var(--accent-emerald));
+      transition: width 0.35s ease;
     }
 
-    .stats-badges {
+    .header-actions {
       display: flex;
-      gap: 12px;
       align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .badge-pill {
-      background: var(--bg-card-alt);
-      border: 1px solid var(--border-color);
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 600;
+    .xp-pill {
+      background: var(--bg-elevated);
+      border: 1px solid var(--accent-amber);
       color: var(--accent-amber);
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+
+    .btn-toggle-all {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--accent-cyan);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .btn-toggle-all:hover {
+      background: rgba(56, 189, 248, 0.15);
     }
 
     .container {
-      max-width: 1050px;
-      margin: 28px auto;
-      padding: 0 18px;
+      max-width: 1040px;
+      margin: 24px auto;
+      padding: 0 16px;
     }
 
-    /* Hero Banner */
-    .hero-card {
-      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+    /* Instructions Banner */
+    .guide-banner {
+      background: linear-gradient(135deg, #1e1b4b, #0f172a);
       border: 1px solid var(--accent-indigo);
       border-radius: var(--radius);
-      padding: 28px;
-      margin-bottom: 28px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .hero-card h1 {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-      color: #fff;
-    }
-
-    .hero-card p {
-      color: var(--text-muted);
-      font-size: 1rem;
-    }
-
-    /* Navigation Tabs */
-    .nav-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      padding: 22px;
       margin-bottom: 24px;
     }
 
-    .tab-btn {
-      background: var(--bg-card);
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
-      padding: 10px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-
-    .tab-btn:hover, .tab-btn.active {
-      background: var(--accent-indigo);
-      border-color: var(--accent-blue);
+    .guide-banner h1 {
+      font-size: 1.55rem;
       color: #fff;
+      margin-bottom: 8px;
     }
 
-    /* Lesson Section Card */
-    .lesson-card {
+    .guide-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .guide-step {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      border-right: 3px solid var(--accent-cyan);
+    }
+
+    /* Floating Word Tooltip */
+    #word-tooltip {
+      position: fixed;
+      z-index: 2000;
+      background: #0f172a;
+      color: #fff;
+      border: 2px solid var(--accent-amber);
+      padding: 8px 14px;
+      border-radius: 10px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      font-size: 0.92rem;
+      pointer-events: none;
+      display: none;
+      max-width: 280px;
+      text-align: center;
+    }
+
+    #word-tooltip .tt-en {
+      color: var(--accent-cyan);
+      font-weight: 700;
+      display: block;
+      direction: ltr;
+      font-size: 0.85rem;
+    }
+
+    #word-tooltip .tt-ar {
+      color: var(--accent-amber);
+      font-weight: 700;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Section Card */
+    .section-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius);
       padding: 24px;
-      margin-bottom: 26px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      margin-bottom: 28px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .lesson-header {
+    .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-subtle);
       padding-bottom: 14px;
       margin-bottom: 18px;
       flex-wrap: wrap;
       gap: 10px;
     }
 
-    .lesson-title {
-      font-size: 1.35rem;
-      color: var(--accent-blue);
+    .section-title {
+      font-size: 1.3rem;
+      color: var(--accent-cyan);
+      direction: ltr;
+      text-align: left;
     }
 
-    .bilingual-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 16px;
+    /* Interactive English Sentences */
+    .sentences-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .sentence-block {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--accent-indigo);
+      border-radius: 10px;
+      padding: 12px 16px;
+      direction: ltr;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .sentence-block:hover {
+      border-color: var(--accent-cyan);
+      background: #243247;
+    }
+
+    .sentence-en {
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .translate-hint-badge {
+      font-size: 0.75rem;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-cyan);
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .word-term {
+      color: var(--accent-amber);
+      font-weight: 700;
+      border-bottom: 2px dotted var(--accent-amber);
+      padding: 0 2px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .word-term:hover {
+      background: rgba(245, 158, 11, 0.25);
+    }
+
+    .sentence-ar {
+      display: none;
+      direction: rtl;
+      text-align: right;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-subtle);
+      color: var(--accent-emerald);
+      font-weight: 600;
+      font-size: 0.98rem;
+    }
+
+    .sentence-block.open .sentence-ar {
+      display: block;
+    }
+
+    /* Crystal Clear Mathematical Formulas Box */
+    .law-showcase {
+      background: #070a12;
+      border: 2px solid var(--accent-amber);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .law-showcase-title {
+      color: var(--accent-amber);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .equations-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 28px;
+      direction: ltr;
       margin-bottom: 18px;
     }
 
-    .lang-box {
-      background: var(--bg-card-alt);
-      padding: 16px;
+    .eq-box {
+      background: #111827;
+      border: 1px solid #374151;
+      padding: 14px 22px;
       border-radius: 10px;
-      border: 1px solid var(--border-color);
-    }
-
-    .lang-box.en {
-      direction: ltr;
-      text-align: left;
-      border-left: 4px solid var(--accent-blue);
-    }
-
-    .lang-box.ar {
-      direction: rtl;
-      text-align: right;
-      border-right: 4px solid var(--accent-green);
-    }
-
-    .formula-box {
-      background: #090d16;
-      border: 1px dashed var(--accent-amber);
-      padding: 14px 18px;
-      border-radius: 10px;
-      margin: 14px 0;
-      text-align: center;
-      direction: ltr;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 1.15rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.35rem;
       font-weight: 700;
-      color: var(--accent-amber);
+      color: #fff;
+      font-family: 'Cambria Math', 'Times New Roman', serif;
     }
 
-    .vocab-list {
+    .eq-label {
+      font-size: 0.82rem;
+      color: var(--accent-cyan);
+      font-family: 'Segoe UI', sans-serif;
+      display: block;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    /* Stacked Fraction Styling */
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 4px;
+    }
+
+    .frac .num {
+      border-bottom: 2px solid #fff;
+      padding: 0 8px 3px 8px;
+      line-height: 1.2;
+    }
+
+    .frac .den {
+      padding: 3px 8px 0 8px;
+      line-height: 1.2;
+    }
+
+    .vec {
+      position: relative;
+      display: inline-block;
+    }
+
+    .vec::after {
+      content: "→";
+      position: absolute;
+      top: -0.65em;
+      left: 0;
+      right: 0;
+      font-size: 0.65em;
+      text-align: center;
+      color: var(--accent-cyan);
+    }
+
+    /* Symbol Legend Grid */
+    .symbol-legend {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 14px;
+    }
+
+    .sym-item {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.88rem;
       display: flex;
-      flex-wrap: wrap;
+      align-items: center;
       gap: 8px;
-      margin: 14px 0;
     }
 
-    .vocab-chip {
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      color: var(--text-main);
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 0.85rem;
+    .sym-char {
+      background: var(--accent-amber);
+      color: #000;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: 'Cambria Math', serif;
+      direction: ltr;
+      min-width: 32px;
+      text-align: center;
     }
 
-    /* Example & Interactive Practice Box */
-    .example-box {
-      background: rgba(16, 185, 129, 0.08);
-      border: 1px solid rgba(16, 185, 129, 0.35);
+    /* 3-Attempt Numerical Challenge Box */
+    .challenge-card {
+      background: rgba(16, 185, 129, 0.07);
+      border: 1px solid rgba(16, 185, 129, 0.4);
       border-radius: 12px;
-      padding: 18px;
-      margin-top: 16px;
+      padding: 20px;
+      margin-top: 18px;
     }
 
-    .example-box h4 {
-      color: var(--accent-green);
-      margin-bottom: 8px;
-      font-size: 1.05rem;
-    }
-
-    .calc-box {
-      background: var(--bg-card-alt);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 16px;
-      margin-top: 16px;
-    }
-
-    .calc-box h4 {
-      color: var(--accent-amber);
+    .challenge-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-bottom: 12px;
     }
 
-    .input-row {
+    .challenge-top h4 {
+      color: var(--accent-emerald);
+      font-size: 1.08rem;
+    }
+
+    .attempts-badge {
+      background: var(--bg-main);
+      border: 1px solid var(--border-subtle);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-rose);
+    }
+
+    .challenge-question-en {
+      direction: ltr;
+      text-align: left;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .challenge-question-ar {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+    }
+
+    .answer-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
-      margin-top: 10px;
     }
 
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      flex: 1;
-      min-width: 130px;
-    }
-
-    .input-group label {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    input[type="number"] {
-      background: var(--bg-primary);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 8px 12px;
+    .answer-row input[type="number"] {
+      background: var(--bg-main);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      padding: 9px 14px;
       border-radius: 8px;
-      font-size: 0.95rem;
+      font-size: 1rem;
+      width: 190px;
     }
 
-    .btn {
+    .btn-check {
       background: var(--accent-indigo);
       color: #fff;
       border: none;
       padding: 9px 18px;
       border-radius: 8px;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 700;
       transition: opacity 0.2s;
     }
 
-    .btn:hover {
-      opacity: 0.9;
+    .btn-check:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
-    .btn-complete {
-      background: var(--bg-card-alt);
-      border: 1px solid var(--accent-green);
-      color: var(--accent-green);
-    }
-
-    .btn-complete.done {
-      background: var(--accent-green);
-      color: #000;
-      cursor: default;
-    }
-
-    .feedback-msg {
-      margin-top: 10px;
+    .btn-reveal {
+      background: transparent;
+      color: var(--accent-amber);
+      border: 1px solid var(--accent-amber);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.86rem;
       font-weight: 600;
-      font-size: 0.92rem;
-      min-height: 22px;
     }
 
-    /* Quiz Styles */
-    .mcq-item {
-      background: var(--bg-card-alt);
-      border: 1px solid var(--border-color);
+    .feedback-area {
+      margin-top: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* Step-by-step Solution Box (Unlocked on win or 3 fails) */
+    .solution-steps-box {
+      display: none;
+      margin-top: 14px;
+      background: #0b1324;
+      border: 1px solid var(--accent-cyan);
       border-radius: 10px;
       padding: 16px;
+    }
+
+    .solution-steps-box.visible {
+      display: block;
+    }
+
+    .solution-steps-box h5 {
+      color: var(--accent-cyan);
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .step-line {
+      padding: 6px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+      font-size: 0.94rem;
+    }
+
+    .step-line:last-child {
+      border-bottom: none;
+      color: var(--accent-emerald);
+      font-weight: 700;
+    }
+
+    /* MCQ Styles */
+    .mcq-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 18px;
       margin-bottom: 16px;
     }
 
-    .mcq-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 10px;
-      margin-top: 12px;
+    .mcq-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .mcq-btn {
-      background: var(--bg-primary);
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
+    .mcq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+      direction: ltr;
+    }
+
+    .mcq-opt {
+      background: var(--bg-main);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
       padding: 10px 14px;
       border-radius: 8px;
-      text-align: right;
+      text-align: left;
       cursor: pointer;
+      font-size: 0.95rem;
       transition: all 0.2s;
     }
 
-    .mcq-btn:hover {
-      border-color: var(--accent-blue);
+    .mcq-opt:hover:not(:disabled) {
+      border-color: var(--accent-cyan);
     }
 
-    .mcq-btn.correct {
+    .mcq-opt.correct {
       background: rgba(16, 185, 129, 0.2);
-      border-color: var(--accent-green);
-      color: var(--accent-green);
+      border-color: var(--accent-emerald);
+      color: var(--accent-emerald);
+      font-weight: 700;
     }
 
-    .mcq-btn.wrong {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: var(--accent-red);
-      color: var(--accent-red);
+    .mcq-opt.wrong {
+      background: rgba(244, 63, 94, 0.2);
+      border-color: var(--accent-rose);
+      color: var(--accent-rose);
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Sticky Progress & Motivation Bar -->
-  <header class="top-bar">
-    <div class="brand-title">
-      <span>⚡ CSCA Physics</span>
-      <span>| Day 2: Laws of Motion</span>
-    </div>
-    <div class="progress-wrapper">
-      <div class="progress-labels">
-        <span>تقدم إتقان الدرس (Mastery Progress)</span>
-        <span id="progress-text">0%</span>
+  <!-- Floating Word Tooltip -->
+  <div id="word-tooltip">
+    <span class="tt-en" id="tt-en-text"></span>
+    <span class="tt-ar" id="tt-ar-text"></span>
+  </div>
+
+  <!-- Top Sticky Gamification Header -->
+  <header class="top-header">
+    <div class="brand">⚡ CSCA Physics | Day 2: Laws of Motion</div>
+    <div class="progress-box">
+      <div class="progress-meta">
+        <span>نسبة إنجاز الدرس (Course Progress)</span>
+        <span id="prog-pct">0%</span>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-fill"></div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="prog-fill"></div>
       </div>
     </div>
-    <div class="stats-badges">
-      <div class="badge-pill" id="xp-display">⭐ 0 XP</div>
-      <div class="badge-pill" id="rank-display">🌱 مبتدئ (Starter)</div>
+    <div class="header-actions">
+      <button class="btn-toggle-all" onclick="toggleAllSentences()">🌐 إظهار/إخفاء ترجمة كل الجمل</button>
+      <div class="xp-pill" id="xp-badge">⭐ 0 XP</div>
     </div>
   </header>
 
   <main class="container">
-    <!-- Hero Section -->
-    <section class="hero-card">
-      <h1>DAY 2: LAWS OF MOTION (قوانين الحركة)</h1>
-      <p>
-        المدة: 1.5 ساعة | الهدف: فهم كيف تسبب القوى الحركة فعلياً وإتقان رسم مخططات الجسم الحر (FBDs) مع أمثلة رقمية وحاسبات تفاعلية لكل قانون.
-      </p>
-    </section>
-
-    <!-- Section 1: Newton's First Law -->
-    <section class="lesson-card" id="sec-1">
-      <div class="lesson-header">
-        <h2 class="lesson-title">1.1 Newton's First Law (قانون نيوتن الأول - القصور الذاتي)</h2>
-        <button class="btn btn-complete" data-sec="1" onclick="markSectionComplete(1, this)">
-          ✓ أتممت فهم هذا القسم (+20 XP)
-        </button>
-      </div>
-
-      <div class="bilingual-grid">
-        <div class="lang-box en">
-          <strong>Statement:</strong> A body remains at rest or in uniform straight-line motion unless acted upon by an external unbalanced force.<br><br>
-          <strong>Inertia:</strong> The tendency of a body to resist change in its state of rest or motion.<br>
-          • Types: Inertia of rest, Inertia of motion, Inertia of direction.<br>
-          • Mass is a measure of inertia (Greater mass ⇒ greater inertia).<br>
-          • Valid only in inertial frames; defines force, not calculates it.
+    <!-- User Guide Banner -->
+    <section class="guide-banner">
+      <h1>DAY 2: LAWS OF MOTION (النسخة التفاعلية المطوّرة)</h1>
+      <p style="color: var(--text-secondary);">تحكم كامل في الترجمة، القوانين الرياضية الواضحة، وشرح خطوات الحل تلقائياً:</p>
+      <div class="guide-steps">
+        <div class="guide-step">
+          <strong>1. ترجمة الكلمة المحددة:</strong> اضغط على أي <span style="color:var(--accent-amber); border-bottom:1px dotted var(--accent-amber);">كلمة ملونة بالذهبي</span> لتظهر لك ترجمتها فوراً.
         </div>
-        <div class="lang-box ar">
-          <strong>نص القانون:</strong> يبقى الجسم ساكناً أو متحركاً بسرعة منتظمة في خط مستقيم ما لم تؤثر عليه قوة خارجية غير متزنة.<br><br>
-          <strong>القصور الذاتي (Inertia):</strong> ميل الجسم لمقاومة التغير في حالته من سكون أو حركة.<br>
-          • أنواعه: قصور السكون، قصور الحركة، قصور الاتجاه.<br>
-          • الكتلة مقياس للقصور الذاتي (كتلة أكبر  قصور ذاتي أكبر).<br>
-          • يصح فقط في الأطر المرجعية القصورية، ويعرّف القوة ولا يحسبها.
+        <div class="guide-step">
+          <strong>2. ترجمة العبارة كاملة:</strong> اضغط على أي سطر إنجليزي لتفتح تحته ترجمة العبارة كاملة بالعربي.
         </div>
-      </div>
-
-      <div class="vocab-list">
-        <span class="vocab-chip">Inertia = القصور الذاتي</span>
-        <span class="vocab-chip">At rest = في حالة سكون</span>
-        <span class="vocab-chip">Uniform motion = حركة منتظمة</span>
-        <span class="vocab-chip">Unbalanced force = قوة غير متزنة</span>
-        <span class="vocab-chip">Inertial frames = أطر مرجعية قصورية</span>
-      </div>
-
-      <div class="formula-box">
-        Net Force (F_net) = 0  ⇒  Acceleration (a) = 0  (Velocity is constant)
-      </div>
-
-      <div class="example-box">
-        <h4>📌 سؤال ومثال بالأرقام (Numerical Challenge #1):</h4>
-        <p>
-          سيارة كتلتها <strong>1200 kg</strong> تتحرك بسرعة ثابتة، وتؤثر عليها قوة دفع للأمام مقدارها <strong>500 N</strong> وقوة مقاومة للخلف مقدارها <strong>500 N</strong>. كم تبلغ القوة المحصلة (Net Force) وكم يبلغ التسارع (Acceleration)؟
-        </p>
-        <div class="input-row">
-          <div class="input-group">
-            <label>أدخل قيمة التسارع a (m/s²):</label>
-            <input type="number" id="ex1-ans" placeholder="مثال: 0" />
-          </div>
-          <button class="btn" onclick="checkNumericalExample(1, 0, 'ex1-ans', 'ex1-fb', 'لأن القوتين متساويتان ومتعاكستان (500 - 500 = 0)، القوة المحصلة = 0 وبالتالي التسارع = 0 m/s².')">تحقق من الإجابة (+15 XP)</button>
+        <div class="guide-step">
+          <strong>3. قاعدة الـ 3 محاولات:</strong> إذا أخطأت 3 مرات في أي سؤال، يفتح لك الموقع خطوات الحل التفصيلية تلقائياً بدون تعليق!
         </div>
-        <div class="feedback-msg" id="ex1-fb"></div>
       </div>
     </section>
 
-    <!-- Section 2: Newton's Second Law & Momentum -->
-    <section class="lesson-card" id="sec-2">
-      <div class="lesson-header">
-        <h2 class="lesson-title">1.2 & 2. Newton's Second Law & Momentum (قانون نيوتن الثاني والزخم)</h2>
-        <button class="btn btn-complete" data-sec="2" onclick="markSectionComplete(2, this)">
-          ✓ أتممت فهم هذا القسم (+20 XP)
-        </button>
-      </div>
+    <!-- Dynamic Lesson Container -->
+    <div id="lessons-root"></div>
 
-      <div class="bilingual-grid">
-        <div class="lang-box en">
-          <strong>Second Law Statement:</strong> The rate of change of momentum of a body is directly proportional to the applied force and takes place in the direction of that force.<br><br>
-          <strong>Momentum (p):</strong> Product of mass and velocity (Unit: kg·m·s⁻¹).<br>
-          • If Force = 0 → Momentum is conserved.<br>
-          • Acceleration is produced only by net force and has the same direction.
-        </div>
-        <div class="lang-box ar">
-          <strong>نص القانون الثاني:</strong> معدل التغير في كمية التحرك (الزخم) يتناسب طردياً مع القوة المؤثرة ويحدث في اتجاهها.<br><br>
-          <strong>كمية التحرك (Momentum):</strong> حاصل ضرب الكتلة في السرعة المتجهة (وحدتها: kg·m·s⁻¹).<br>
-          • إذا كانت القوة = 0 ← تكون كمية التحرك محفوظة (ثابتة).<br>
-          • التسارع ينتج فقط عن القوة المحصلة ويكون في نفس اتجاهها.
-        </div>
+    <!-- Official CSCA MCQs Section -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">CSCA-STYLE MCQs (اختبار نهاية الدرس - 3 محاولات لكل سؤال)</h2>
       </div>
-
-      <div class="vocab-list">
-        <span class="vocab-chip">Momentum (p) = كمية التحرك / الزخم</span>
-        <span class="vocab-chip">Directly proportional = يتناسب طردياً</span>
-        <span class="vocab-chip">Net force = القوة المحصلة</span>
-        <span class="vocab-chip">Conserved = محفوظ</span>
-        <span class="vocab-chip">Impulse = الدفع</span>
-      </div>
-
-      <div class="formula-box">
-        p = m · v   |   F = dp / dt   |   F = m · a (when mass is constant)
-      </div>
-
-      <div class="example-box">
-        <h4>📌 سؤال ومثال بالأرقام (Numerical Challenge #2 - من الدرس MCQ 3):</h4>
-        <p>
-          جسم كتلته <strong>m = 2 kg</strong> يتحرك بتسارع مقداره <strong>a = 3 m/s²</strong>. احسب القوة المحصلة المؤثرة عليه بوحدة النيوتن (N)؛ وإذا كانت سرعته اللحظية <strong>v = 5 m/s</strong> فكم تبلغ كمية تحركه <strong>p</strong>؟
-        </p>
-        <div class="input-row">
-          <div class="input-group">
-            <label>القوة F (N) = m × a:</label>
-            <input type="number" id="ex2-ans" placeholder="أدخل القوة بـ N" />
-          </div>
-          <button class="btn" onclick="checkNumericalExample(2, 6, 'ex2-ans', 'ex2-fb', 'صحيح! F = m × a = 2 × 3 = 6 N، وكمية التحرك p = m × v = 2 × 5 = 10 kg·m/s.')">تحقق من الإجابة (+15 XP)</button>
-        </div>
-        <div class="feedback-msg" id="ex2-fb"></div>
-      </div>
-
-      <div class="calc-box">
-        <h4>🧮 حاسبة قانون نيوتن الثاني والزخم التفاعلية:</h4>
-        <div class="input-row">
-          <div class="input-group">
-            <label>الكتلة m (kg):</label>
-            <input type="number" id="c2-m" value="2" step="any" />
-          </div>
-          <div class="input-group">
-            <label>التسارع a (m/s²):</label>
-            <input type="number" id="c2-a" value="3" step="any" />
-          </div>
-          <div class="input-group">
-            <label>السرعة v (m/s):</label>
-            <input type="number" id="c2-v" value="5" step="any" />
-          </div>
-          <button class="btn" onclick="calcSecondLaw()">احسب الآن</button>
-        </div>
-        <div class="feedback-msg" id="c2-out"></div>
-      </div>
-    </section>
-
-    <!-- Section 3: Newton's Third Law & FBDs -->
-    <section class="lesson-card" id="sec-3">
-      <div class="lesson-header">
-        <h2 class="lesson-title">1.3 & 3. Newton's Third Law & Free Body Diagrams (قانون نيوتن الثالث ومخطط الجسم الحر)</h2>
-        <button class="btn btn-complete" data-sec="3" onclick="markSectionComplete(3, this)">
-          ✓ أتممت فهم هذا القسم (+20 XP)
-        </button>
-      </div>
-
-      <div class="bilingual-grid">
-        <div class="lang-box en">
-          <strong>Third Law:</strong> For every action, there is an equal and opposite reaction.<br>
-          • Action and reaction act on <strong>different bodies</strong> and <strong>never cancel each other</strong>.<br><br>
-          <strong>Free Body Diagram (FBD):</strong> A diagram showing all external forces acting on a body:<br>
-          1. Isolate the body.<br>
-          2. Show Weight (mg), Normal reaction (N), Tension (T), Friction (f).<br>
-          • <em>Golden Rule: No equation without FBD!</em>
-        </div>
-        <div class="lang-box ar">
-          <strong>القانون الثالث:</strong> لكل فعل رد فعل مساوٍ له في المقدار ومعاكس له في الاتجاه.<br>
-          • الفعل ورد الفعل يؤثران على <strong>جسمين مختلفين</strong> و<strong>لا يلغيان بعضهما أبداً</strong>.<br><br>
-          <strong>مخطط الجسم الحر (FBD):</strong> رسم يوضح جميع القوى الخارجية المؤثرة على الجسم:<br>
-          1. اعزل الجسم.<br>
-          2. وضح: الوزن (mg)، القوة العمودية (N)، الشد (T)، الاحتكاك (f).<br>
-          • <em>القاعدة الذهبية: لا معادلة بدون مخطط الجسم الحر!</em>
-        </div>
-      </div>
-
-      <div class="formula-box">
-        F_AB = - F_BA
-      </div>
-
-      <div class="example-box">
-        <h4>📌 سؤال ومثال بالأرقام (Numerical Challenge #3):</h4>
-        <p>
-          يضغط كتاب على سطح طاولة بقوة لأسفل مقدارها <strong>F_AB = 25 N</strong>. ما هو مقدار قوة رد الفعل التي تؤثر بها الطاولة على الكتاب لأعلى؟
-        </p>
-        <div class="input-row">
-          <div class="input-group">
-            <label>مقدار قوة رد الفعل (N):</label>
-            <input type="number" id="ex3-ans" placeholder="أدخل المقدار بـ N" />
-          </div>
-          <button class="btn" onclick="checkNumericalExample(3, 25, 'ex3-ans', 'ex3-fb', 'أحسنت! مقدار قوة رد الفعل يساوي 25 N في الاتجاه المعاكس (لأعلى)، وتؤثر على الكتاب بينما الفعل يؤثر على الطاولة.')">تحقق من الإجابة (+15 XP)</button>
-        </div>
-        <div class="feedback-msg" id="ex3-fb"></div>
-      </div>
-    </section>
-
-    <!-- Section 4: Friction -->
-    <section class="lesson-card" id="sec-4">
-      <div class="lesson-header">
-        <h2 class="lesson-title">4. Friction: Static & Kinetic (الاحتكاك السكوني والحركي)</h2>
-        <button class="btn btn-complete" data-sec="4" onclick="markSectionComplete(4, this)">
-          ✓ أتممت فهم هذا القسم (+20 XP)
-        </button>
-      </div>
-
-      <div class="bilingual-grid">
-        <div class="lang-box en">
-          <strong>4.1 Static Friction (f_s):</strong> Prevents relative motion before sliding starts.<br>
-          <strong>4.2 Kinetic Friction (f_k):</strong> Acts when the body is already moving.<br><br>
-          <strong>Important Points:</strong><br>
-          • μ_k &lt; μ_s (Kinetic coefficient is always less than static coefficient).<br>
-          • Friction always opposes <strong>relative motion</strong>.
-        </div>
-        <div class="lang-box ar">
-          <strong>4.1 الاحتكاك السكوني (f_s):</strong> يمنع الحركة النسبية قبل بدء الانزلاق.<br>
-          <strong>4.2 الاحتكاك الحركي (f_k):</strong> يؤثر عندما يكون الجسم متحركاً بالفعل.<br><br>
-          <strong>نقاط هامة:</strong><br>
-          • دائماً معامل الاحتكاك الحركي أقل من السكوني (μ_k &lt; μ_s).<br>
-          • الاحتكاك يعاكس دائماً <strong>الحركة النسبية</strong>.
-        </div>
-      </div>
-
-      <div class="formula-box">
-        f_s ≤ f_s,max = μ_s · N   |   f_k = μ_k · N   (where μ_k &lt; μ_s)
-      </div>
-
-      <div class="example-box">
-        <h4>📌 سؤال ومثال بالأرقام (Numerical Challenge #4):</h4>
-        <p>
-          جسم يتعرض لقوة عمودية <strong>N = 50 N</strong>، فإذا كان معامل الاحتكاك السكوني <strong>μ_s = 0.4</strong> ومعامل الاحتكاك الحركي <strong>μ_k = 0.2</strong>، احسب قوة الاحتكاك الحركي <strong>f_k</strong> عندما ينزلق الجسم.
-        </p>
-        <div class="input-row">
-          <div class="input-group">
-            <label>قوة الاحتكاك الحركي f_k (N):</label>
-            <input type="number" id="ex4-ans" placeholder="f_k = μ_k × N" />
-          </div>
-          <button class="btn" onclick="checkNumericalExample(4, 10, 'ex4-ans', 'ex4-fb', 'ممتاز! f_k = μ_k × N = 0.2 × 50 = 10 N (وأقصى احتكاك سكوني هو 0.4 × 50 = 20 N).')">تحقق من الإجابة (+15 XP)</button>
-        </div>
-        <div class="feedback-msg" id="ex4-fb"></div>
-      </div>
-
-      <div class="calc-box">
-        <h4>🧮 حاسبة الاحتكاك التفاعلية:</h4>
-        <div class="input-row">
-          <div class="input-group">
-            <label>القوة العمودية N (N):</label>
-            <input type="number" id="c4-n" value="50" step="any" />
-          </div>
-          <div class="input-group">
-            <label>معامل السكوني μ_s:</label>
-            <input type="number" id="c4-mus" value="0.4" step="0.05" />
-          </div>
-          <div class="input-group">
-            <label>معامل الحركي μ_k:</label>
-            <input type="number" id="c4-muk" value="0.2" step="0.05" />
-          </div>
-          <button class="btn" onclick="calcFriction()">احسب الاحتكاك</button>
-        </div>
-        <div class="feedback-msg" id="c4-out"></div>
-      </div>
-    </section>
-
-    <!-- Section 5: Motion on an Inclined Plane -->
-    <section class="lesson-card" id="sec-5">
-      <div class="lesson-header">
-        <h2 class="lesson-title">5. Motion on an Inclined Plane (الحركة على مستوى مائل)</h2>
-        <button class="btn btn-complete" data-sec="5" onclick="markSectionComplete(5, this)">
-          ✓ أتممت فهم هذا القسم (+20 XP)
-        </button>
-      </div>
-
-      <div class="bilingual-grid">
-        <div class="lang-box en">
-          Consider a block of mass <strong>m</strong> on an incline of angle <strong>θ</strong>:<br>
-          • Normal reaction: <strong>N = mg cos θ</strong><br>
-          • Component down the plane: <strong>mg sin θ</strong><br>
-          • Acceleration without friction (smooth): <strong>a = g sin θ</strong><br>
-          • Acceleration with friction (rough): <strong>a = g (sin θ - μ cos θ)</strong>
-        </div>
-        <div class="lang-box ar">
-          لجسم كتلته <strong>m</strong> موضوع على سطح مائل بزاوية <strong>θ</strong>:<br>
-          • رد الفعل العمودي: <strong>N = mg cos θ</strong><br>
-          • مركبة الوزن لأسفل السطح المائل: <strong>mg sin θ</strong><br>
-          • التسارع بدون احتكاك (سطح أملس): <strong>a = g sin θ</strong><br>
-          • التسارع مع احتكاك (سطح خشن): <strong>a = g (sin θ - μ cos θ)</strong>
-        </div>
-      </div>
-
-      <div class="formula-box">
-        N = mg cos θ  |  Smooth: a = g sin θ  |  Rough: a = g(sin θ - μ cos θ)
-      </div>
-
-      <div class="example-box">
-        <h4>📌 سؤال ومثال بالأرقام (Numerical Challenge #5):</h4>
-        <p>
-          ينزلق جسم على مستوى مائل أملس (بدون احتكاك) يميل بزاوية <strong>θ = 30°</strong> (حيث sin 30° = 0.5). باعتبار تسارع الجاذبية <strong>g = 10 m/s²</strong>، كم يكون تسارع الجسم <strong>a</strong>؟
-        </p>
-        <div class="input-row">
-          <div class="input-group">
-            <label>التسارع a (m/s²):</label>
-            <input type="number" id="ex5-ans" placeholder="a = g sin(30°)" />
-          </div>
-          <button class="btn" onclick="checkNumericalExample(5, 5, 'ex5-ans', 'ex5-fb', 'صحيح! على السطح الأملس a = g sin(30°) = 10 × 0.5 = 5 m/s².')">تحقق من الإجابة (+15 XP)</button>
-        </div>
-        <div class="feedback-msg" id="ex5-fb"></div>
-      </div>
-
-      <div class="calc-box">
-        <h4>🧮 محاكي المستوى المائل التفاعلي:</h4>
-        <div class="input-row">
-          <div class="input-group">
-            <label>الكتلة m (kg):</label>
-            <input type="number" id="c5-m" value="5" step="any" />
-          </div>
-          <div class="input-group">
-            <label>الزاوية θ (درجة):</label>
-            <input type="number" id="c5-theta" value="30" step="any" />
-          </div>
-          <div class="input-group">
-            <label>معامل الاحتكاك μ:</label>
-            <input type="number" id="c5-mu" value="0.2" step="0.05" />
-          </div>
-          <button class="btn" onclick="calcIncline()">احسب القوى والتسارع</button>
-        </div>
-        <div class="feedback-msg" id="c5-out"></div>
-      </div>
-    </section>
-
-    <!-- Section 6: Block-Pulley System (Atwood Machine) -->
-    <section class="lesson-card" id="sec-6">
-      <div class="lesson-header">
-        <h2 class="lesson-title">6. Block-Pulley System / Atwood Machine (نظام البكرة والكتل - آلة أتوود)</h2>
-        <button class="btn btn-complete" data-sec="6" onclick="markSectionComplete(6, this)">
-          ✓ أتممت فهم هذا القسم (+20 XP)
-        </button>
-      </div>
-
-      <div class="bilingual-grid">
-        <div class="lang-box en">
-          Let masses be <strong>m₁ &gt; m₂</strong>, string tension = <strong>T</strong>, acceleration = <strong>a</strong>:<br>
-          • Equation for m₁ (moving down): <strong>m₁g - T = m₁a</strong><br>
-          • Equation for m₂ (moving up): <strong>T - m₂g = m₂a</strong><br>
-          • If <strong>m₁ = m₂</strong>, Net Force = 0 ⇒ <strong>a = 0</strong>.
-        </div>
-        <div class="lang-box ar">
-          بفرض كتلتين <strong>m₁ &gt; m₂</strong>، والشد في الحبل <strong>T</strong>، والتسارع <strong>a</strong>:<br>
-          • معادلة الكتلة الأثقل m₁ (لأسفل): <strong>m₁g - T = m₁a</strong><br>
-          • معادلة الكتلة الأخف m₂ (لأعلى): <strong>T - m₂g = m₂a</strong><br>
-          • إذا تساوت الكتلتان <strong>m₁ = m₂</strong> فإن القوة المحصلة = 0  <strong>التسارع = صفر</strong>.
-        </div>
-      </div>
-
-      <div class="formula-box">
-        a = [ (m₁ - m₂) g ] / (m₁ + m₂)   |   T = [ 2 m₁ m₂ g ] / (m₁ + m₂)
-      </div>
-
-      <div class="example-box">
-        <h4>📌 سؤال ومثال بالأرقام (Numerical Challenge #6):</h4>
-        <p>
-          في آلة أتوود، إذا كانت <strong>m₁ = 6 kg</strong> و <strong>m₂ = 4 kg</strong> وتسارع الجاذبية <strong>g = 10 m/s²</strong>، احسب تسارع النظام <strong>a</strong> بوحدة m/s².
-        </p>
-        <div class="input-row">
-          <div class="input-group">
-            <label>التسارع a (m/s²):</label>
-            <input type="number" id="ex6-ans" placeholder="a = (m1-m2)g / (m1+m2)" />
-          </div>
-          <button class="btn" onclick="checkNumericalExample(6, 2, 'ex6-ans', 'ex6-fb', 'بطل! a = (6 - 4)×10 / (6 + 4) = 20 / 10 = 2 m/s²، والشد T = 48 N.')">تحقق من الإجابة (+15 XP)</button>
-        </div>
-        <div class="feedback-msg" id="ex6-fb"></div>
-      </div>
-
-      <div class="calc-box">
-        <h4>🧮 حاسبة آلة أتوود (Atwood Machine Simulator):</h4>
-        <div class="input-row">
-          <div class="input-group">
-            <label>الكتلة الأولى m₁ (kg):</label>
-            <input type="number" id="c6-m1" value="6" step="any" />
-          </div>
-          <div class="input-group">
-            <label>الكتلة الثانية m₂ (kg):</label>
-            <input type="number" id="c6-m2" value="4" step="any" />
-          </div>
-          <div class="input-group">
-            <label>الجاذبية g (m/s²):</label>
-            <input type="number" id="c6-g" value="10" step="any" />
-          </div>
-          <button class="btn" onclick="calcAtwood()">احسب التسارع والشد</button>
-        </div>
-        <div class="feedback-msg" id="c6-out"></div>
-      </div>
-    </section>
-
-    <!-- Section 7: Official CSCA-Style MCQs -->
-    <section class="lesson-card" id="sec-quiz">
-      <div class="lesson-header">
-        <h2 class="lesson-title">🏆 CSCA-Style MCQs (الاختبار التفاعلي الشامل لليوم الثاني)</h2>
-      </div>
-      <p style="color: var(--text-muted); margin-bottom: 16px;">
-        اختر الإجابة الصحيحة لكل سؤال من أسئلة الدرس الـ 8 للحصول على نقاط إضافية (+10 XP لكل سؤال):
-      </p>
-      <div id="quiz-container"></div>
+      <div id="mcqs-root"></div>
     </section>
   </main>
 
   <script>
     'use strict';
 
-    // Application State
-    const appState = {
-      xp: 0,
-      completedSections: new Set(),
-      solvedExamples: new Set(),
-      solvedMcqs: new Set(),
-      totalTasks: 6 + 6 + 8 // 6 sections + 6 numerical challenges + 8 MCQs = 20 tasks
-    };
-
-    const quizQuestions = [
+    // Lesson Data Structure: Exact PDF Content + Word Translations + Sentence Translations + Clear Formulas + 3-Try Challenges
+    const lessonsData = [
       {
-        q: "MCQ 1: Which of the following best defines inertia? (ما الذي يعرّف القصور الذاتي بأفضل شكل؟)",
-        options: [
-          "A. Resistance to acceleration",
-          "B. Resistance to change in motion (مقاومة التغير في حالة الحركة أو السكون)",
-          "C. Resistance to force",
-          "D. Resistance to gravity"
+        id: "law1",
+        title: "1.1 Newton's First Law (Law of Inertia)",
+        sentences: [
+          {
+            en: "A <w data-ar='جسم'>body</w> <w data-ar='يبقى / يظل'>remains</w> <w data-ar='في حالة سكون'>at rest</w> or in <w data-ar='حركة منتظمة في خط مستقيم'>uniform straight-line motion</w> unless <w data-ar='تؤثر عليه'>acted upon</w> by an <w data-ar='قوة خارجية غير متزنة'>external unbalanced force</w>.",
+            ar: "يبقى الجسم في حالة سكون أو في حركة منتظمة في خط مستقيم ما لم تؤثر عليه قوة خارجية غير متزنة."
+          },
+          {
+            en: "<w data-ar='القصور الذاتي'>Inertia</w> is the <w data-ar='ميل / نزعة'>tendency</w> of a body to <w data-ar='يقاوم'>resist</w> change in its <w data-ar='حالة السكون أو الحركة'>state of rest or motion</w>.",
+            ar: "القصور الذاتي هو ميل الجسم لمقاومة أي تغيير في حالته من سكون أو حركة."
+          },
+          {
+            en: "Types of inertia: 1. <w data-ar='قصور السكون'>Inertia of rest</w>, 2. <w data-ar='قصور الحركة'>Inertia of motion</w>, 3. <w data-ar='قصور الاتجاه'>Inertia of direction</w>.",
+            ar: "أنواع القصور الذاتي: 1. قصور السكون، 2. قصور الحركة، 3. قصور الاتجاه."
+          },
+          {
+            en: "<w data-ar='الكتلة'>Mass</w> is a <w data-ar='مقياس'>measure</w> of <w data-ar='القصور الذاتي'>inertia</w>. Greater mass ⇒ greater inertia.",
+            ar: "الكتلة هي مقياس القصور الذاتي؛ فكلما زادت الكتلة زاد القصور الذاتي للجسم."
+          },
+          {
+            en: "Key CSCA Point: First law is <w data-ar='صالح / يصح تطبيقه'>valid</w> only in <w data-ar='الأطر المرجعية القصورية (غير المتسارعة)'>inertial frames</w>, and it <w data-ar='يعرّف القوة'>defines force</w>, not <w data-ar='يحسبها'>calculates it</w>.",
+            ar: "نقطة هامة لاختبار CSCA: القانون الأول يصح فقط في الأطر المرجعية القصورية، وهو يعرّف معنى القوة ولكنه لا يحسب قيمتها."
+          }
         ],
-        correct: 1,
-        explain: "Correct! Inertia resists change in state of rest or motion."
+        formulaHtml: `
+          <div>
+            <span class="eq-label">شرط الاتزان (Equilibrium Condition)</span>
+            <div class="eq-box">
+              <span>∑ <span class="vec">F</span><sub>net</sub> = 0</span>
+              <span style="color:var(--accent-cyan);">⇒</span>
+              <span><span class="vec">a</span> = 0</span>
+            </div>
+          </div>
+        `,
+        symbols: [
+          { sym: "∑F_net", desc: "القوة المحصلة الصافية (Net Force) بوحدة النيوتن (N)" },
+          { sym: "a", desc: "التسارع (Acceleration) بوحدة (m/s²) ويساوي صفراً عند الاتزان" },
+          { sym: "m", desc: "الكتلة (Mass) بوحدة (kg) وهي مقياس القصور الذاتي" }
+        ],
+        challenge: {
+          qEn: "A car of mass 1000 kg moves in a straight line at constant velocity. If the forward engine force is 600 N and backward air resistance is 600 N, what is the acceleration (a) in m/s²?",
+          qAr: "سيارة كتلتها 1000 kg تتحرك في خط مستقيم بسرعة ثابتة. إذا كانت قوة المحرك للأمام 600 N وقوة المقاومة للخلف 600 N، فكم يبلغ التسارع (a) بوحدة m/s²؟",
+          answer: 0,
+          hint1: "تلميح 1: احسب القوة المحصلة أولاً: القوة للأمام (600) ناقص القوة للخلف (600).",
+          hint2: "تلميح 2: بما أن القوة المحصلة F_net = 600 - 600 = 0 N، طبق شرط قانون نيوتن الأول لإيجاد التسارع a.",
+          steps: [
+            "الخطوة 1 (القانون): حسب قانون نيوتن الأول، إذا كانت القوة المحصلة الصافية تساوي صفراً (F_net = 0) فإن التسارع يساوي صفراً (a = 0).",
+            "الخطوة 2 (التعويض): القوة المحصلة = 600 N (للأمام) - 600 N (للخلف) = 0 N.",
+            "الخطوة 3 (الناتج النهائي): إذن التسارع a = 0 m/s² وتظل السيارة متحركة بسرعتها المنتظمة."
+          ]
+        }
       },
       {
-        q: "MCQ 2: Newton's first law is valid in: (قانون نيوتن الأول صالح في:)",
-        options: [
-          "A. All frames",
-          "B. Only accelerated frames",
-          "C. Only inertial frames (الأطر المرجعية القصورية فقط)",
-          "D. Only rotating frames"
+        id: "law2",
+        title: "1.2 & 2. Newton's Second Law & Momentum",
+        sentences: [
+          {
+            en: "The <w data-ar='معدل التغير'>rate of change</w> of <w data-ar='كمية التحرك / الزخم'>momentum</w> of a body is <w data-ar='يتناسب طردياً'>directly proportional</w> to the <w data-ar='القوة المؤثرة'>applied force</w> and takes place in the <w data-ar='اتجاه'>direction</w> of that force.",
+            ar: "معدل التغير في كمية التحرك (الزخم) لجسم يتناسب طردياً مع القوة المؤثرة عليه ويحدث في اتجاه تلك القوة."
+          },
+          {
+            en: "<w data-ar='كمية التحرك / الزخم'>Momentum</w> is the <w data-ar='حاصل ضرب'>product</w> of <w data-ar='الكتلة'>mass</w> and <w data-ar='السرعة المتجهة'>velocity</w>, with SI unit <w data-ar='كيلوجرام في متر لكل ثانية'>kg m s⁻¹</w>.",
+            ar: "كمية التحرك هي حاصل ضرب الكتلة في السرعة المتجهة، ووحدة قياسها هي kg m s⁻¹."
+          },
+          {
+            en: "Important <w data-ar='نتائج هامة'>Consequences</w>: <w data-ar='التسارع'>Acceleration</w> is produced only by <w data-ar='القوة المحصلة الصافية'>net force</w>, and if force = 0, momentum is <w data-ar='محفوظ / ثابت'>conserved</w>.",
+            ar: "نتائج هامة: التسارع ينتج فقط عن القوة المحصلة الصافية، وإذا كانت القوة تساوي صفراً فإن كمية التحرك تكون محفوظة."
+          }
         ],
-        correct: 2,
-        explain: "Correct! Newton's first law is valid strictly in inertial frames."
+        formulaHtml: `
+          <div>
+            <span class="eq-label">قانون كمية التحرك (Momentum)</span>
+            <div class="eq-box">
+              <span><span class="vec">p</span> = m · <span class="vec">v</span></span>
+            </div>
+          </div>
+          <div>
+            <span class="eq-label">الصيغة العامة لقانون نيوتن الثاني</span>
+            <div class="eq-box">
+              <span><span class="vec">F</span> = </span>
+              <span class="frac">
+                <span class="num">d<span class="vec">p</span></span>
+                <span class="den">dt</span>
+              </span>
+            </div>
+          </div>
+          <div>
+            <span class="eq-label">عند ثبات الكتلة (Constant Mass)</span>
+            <div class="eq-box">
+              <span><span class="vec">F</span> = m · <span class="vec">a</span></span>
+            </div>
+          </div>
+        `,
+        symbols: [
+          { sym: "p", desc: "كمية التحرك / الزخم (Momentum) بوحدة (kg·m/s)" },
+          { sym: "m", desc: "كتلة الجسم (Mass) بوحدة الكيلوجرام (kg)" },
+          { sym: "v", desc: "السرعة المتجهة (Velocity) بوحدة (m/s)" },
+          { sym: "F", desc: "القوة المحصلة (Net Force) بوحدة النيوتن (N)" },
+          { sym: "dp/dt", desc: "معدل تغير كمية التحرك بالنسبة للزمن (Rate of change of momentum)" },
+          { sym: "a", desc: "التسارع (Acceleration) بوحدة (m/s²)" }
+        ],
+        challenge: {
+          qEn: "A body of mass m = 4 kg accelerates uniformly at a = 5 m/s². Calculate the net force (F) acting on the body in Newtons (N).",
+          qAr: "جسم كتلته m = 4 kg يتسارع بانتظام بمقدار a = 5 m/s². احسب القوة المحصلة (F) المؤثرة على الجسم بوحدة النيوتن (N).",
+          answer: 20,
+          hint1: "تلميح 1: استخدم قانون نيوتن الثاني عند ثبات الكتلة: F = m × a.",
+          hint2: "تلميح 2: عوض بالأرقام مباشرة: اضرب الكتلة (4) في التسارع (5).",
+          steps: [
+            "الخطوة 1 (كتابة القانون): نستخدم قانون نيوتن الثاني F = m × a.",
+            "الخطوة 2 (التعويض بالأرقام): الكتلة m = 4 kg والتسارع a = 5 m/s²، إذن F = 4 × 5.",
+            "الخطوة 3 (الناتج النهائي): القوة المحصلة F = 20 N."
+          ]
+        }
       },
       {
-        q: "MCQ 3: A body of mass 2 kg has acceleration 3 m/s². Force acting is: (جسم كتلته 2kg وتسارعه 3m/s²، القوة تساوي:)",
-        options: [
-          "A. 1.5 N",
-          "B. 5 N",
-          "C. 6 N",
-          "D. 9 N"
+        id: "law3",
+        title: "1.3 & 3. Newton's Third Law & Free Body Diagrams (FBDs)",
+        sentences: [
+          {
+            en: "For every <w data-ar='فعل'>action</w>, there is an <w data-ar='مساوٍ'>equal</w> and <w data-ar='معاكس في الاتجاه'>opposite</w> <w data-ar='رد فعل'>reaction</w>.",
+            ar: "لكل فعل رد فعل مساوٍ له في المقدار ومعاكس له في الاتجاه."
+          },
+          {
+            en: "Common CSCA Trap: Action and reaction act on <w data-ar='جسمين مختلفين'>different bodies</w> and <w data-ar='لا يلغيان بعضهما أبداً'>never cancel each other</w>.",
+            ar: "خدعة شائعة في اختبار CSCA: الفعل ورد الفعل يؤثران على جسمين مختلفين، ولذلك لا يلغيان بعضهما أبداً."
+          },
+          {
+            en: "A <w data-ar='مخطط الجسم الحر'>Free Body Diagram (FBD)</w> is a diagram showing all <w data-ar='القوى الخارجية'>external forces</w> acting on an <w data-ar='جسم معزول'>isolated body</w>: <w data-ar='الوزن لأسفل'>Weight (mg)</w>, <w data-ar='رد الفعل العمودي'>Normal reaction (N)</w>, <w data-ar='قوة الشد'>Tension (T)</w>, and <w data-ar='قوة الاحتكاك'>Friction (f)</w>.",
+            ar: "مخطط الجسم الحر (FBD) هو رسم تخطيطي يوضح جميع القوى الخارجية المؤثرة على جسم معزول: الوزن (mg)، رد الفعل العمودي (N)، الشد (T)، والاحتكاك (f)."
+          },
+          {
+            en: "Golden Rule: No <w data-ar='معادلة رياضية'>equation</w> without <w data-ar='رسم مخطط الجسم الحر'>FBD</w>.",
+            ar: "القاعدة الذهبية: لا تكتب أي معادلة بدون رسم مخطط الجسم الحر أولاً."
+          }
         ],
-        correct: 2,
-        explain: "Correct! F = ma = 2 × 3 = 6 N."
+        formulaHtml: `
+          <div>
+            <span class="eq-label">قانون الفعل ورد الفعل (Action-Reaction Law)</span>
+            <div class="eq-box">
+              <span><span class="vec">F</span><sub>AB</sub> = − <span class="vec">F</span><sub>BA</sub></span>
+            </div>
+          </div>
+          <div>
+            <span class="eq-label">قانون الوزن (Weight Force)</span>
+            <div class="eq-box">
+              <span>W = m · g</span>
+            </div>
+          </div>
+        `,
+        symbols: [
+          { sym: "F_AB", desc: "قوة تأثير الجسم A على الجسم B (الفعل) بوحدة (N)" },
+          { sym: "F_BA", desc: "قوة تأثير الجسم B على الجسم A (رد الفعل) بوحدة (N)" },
+          { sym: "−", desc: "الإشارة السالبة تعني أن القوتين متعاكستان في الاتجاه تماماً" },
+          { sym: "W = mg", desc: "وزن الجسم لأسفل = الكتلة (m) × تسارع الجاذبية (g)" }
+        ],
+        challenge: {
+          qEn: "A book of mass m = 3 kg rests on a horizontal table (take g = 10 m/s²). What is the magnitude of the upward normal reaction force (N) exerted by the table on the book in Newtons?",
+          qAr: "كتاب كتلته m = 3 kg موضوع في حالة سكون على طاولة أفقية (باعتبار g = 10 m/s²). ما مقدار قوة رد الفعل العمودي (N) التي تؤثر بها الطاولة لأعلى على الكتاب بوحدة النيوتن؟",
+          answer: 30,
+          hint1: "تلميح 1: احسب وزن الكتاب لأسفل باستخدام القانون W = m × g.",
+          hint2: "تلميح 2: بما أن الكتاب متزن رأسياً على الطاولة، فإن N = m × g = 3 × 10.",
+          steps: [
+            "الخطوة 1 (تحليل القوى FBD): يؤثر على الكتاب وزنه لأسفل (mg) وقوة رد الفعل العمودي من الطاولة لأعلى (N).",
+            "الخطوة 2 (التعويض): وزن الكتاب = m × g = 3 kg × 10 m/s² = 30 N.",
+            "الخطوة 3 (الناتج النهائي): إذن مقدار القوة العمودية لأعلى N = 30 N."
+          ]
+        }
       },
       {
-        q: "MCQ 4: Which pair is an action-reaction pair? (أي زوج يمثل فعل ورد فعل؟)",
-        options: [
-          "A. Weight and normal",
-          "B. Tension and weight",
-          "C. Force on table by book & force on book by table (قوة الكتاب على الطاولة وقوة الطاولة على الكتاب)",
-          "D. Friction and motion"
+        id: "friction",
+        title: "4. Friction (Static & Kinetic Friction)",
+        sentences: [
+          {
+            en: "<w data-ar='الاحتكاك السكوني'>Static friction (f_s)</w> <w data-ar='يمنع'>prevents</w> <w data-ar='الحركة النسبية'>relative motion</w> up to a maximum limit.",
+            ar: "الاحتكاك السكوني (f_s) يمنع حدوث الحركة النسبية بين السطوح المتلامسة حتى يصل لقيمته العظمى."
+          },
+          {
+            en: "<w data-ar='الاحتكاك الحركي'>Kinetic friction (f_k)</w> acts when the body is <w data-ar='يتحرك بالفعل'>already moving</w>.",
+            ar: "الاحتكاك الحركي (f_k) يؤثر عندما يكون الجسم متحركاً (ينزلق) بالفعل."
+          },
+          {
+            en: "Important Points: <w data-ar='معامل الاحتكاك الحركي'>μ_k</w> is always less than <w data-ar='معامل الاحتكاك السكوني'>μ_s</w> (μ_k < μ_s), and friction always <w data-ar='يعاكس'>opposes</w> <w data-ar='الحركة النسبية'>relative motion</w>.",
+            ar: "نقاط هامة: معامل الاحتكاك الحركي دائماً أصغر من معامل الاحتكاك السكوني (μ_k < μ_s)، والاحتكاك يعاكس دائماً الحركة النسبية."
+          }
         ],
-        correct: 2,
-        explain: "Correct! Action and reaction act on two different bodies."
+        formulaHtml: `
+          <div>
+            <span class="eq-label">الاحتكاك السكوني الأقصى (Max Static Friction)</span>
+            <div class="eq-box">
+              <span>f<sub>s,max</sub> = μ<sub>s</sub> · N</span>
+            </div>
+          </div>
+          <div>
+            <span class="eq-label">الاحتكاك الحركي (Kinetic Friction)</span>
+            <div class="eq-box">
+              <span>f<sub>k</sub> = μ<sub>k</sub> · N</span>
+            </div>
+          </div>
+        `,
+        symbols: [
+          { sym: "f_s,max", desc: "أقصى قوة احتكاك سكوني قبل بدء الحركة بوحدة النيوتن (N)" },
+          { sym: "f_k", desc: "قوة الاحتكاك الحركي أثناء الانزلاق بوحدة النيوتن (N)" },
+          { sym: "μ_s , μ_k", desc: "معامل الاحتكاك السكوني (μ_s) والحركي (μ_k) - بدون وحدة" },
+          { sym: "N", desc: "قوة رد الفعل العمودي للسطح (Normal Force) بوحدة النيوتن (N)" }
+        ],
+        challenge: {
+          qEn: "A block presses on a rough floor with a normal reaction force N = 80 N. If the coefficient of kinetic friction is μ_k = 0.25, calculate the kinetic friction force (f_k) in Newtons.",
+          qAr: "صندوق يضغط على أرضية خشنة بقوة رد فعل عمودي N = 80 N. إذا كان معامل الاحتكاك الحركي μ_k = 0.25، احسب قوة الاحتكاك الحركي (f_k) بوحدة النيوتن.",
+          answer: 20,
+          hint1: "تلميح 1: استخدم قانون الاحتكاك الحركي المباشر: f_k = μ_k × N.",
+          hint2: "تلميح 2: اضرب معامل الاحتكاك الحركي (0.25) في القوة العمودية (80).",
+          steps: [
+            "الخطوة 1 (القانون): قانون قوة الاحتكاك الحركي هو f_k = μ_k × N.",
+            "الخطوة 2 (التعويض): نعوض بـ μ_k = 0.25 و N = 80 N فنحصل على f_k = 0.25 × 80.",
+            "الخطوة 3 (الناتج النهائي): قوة الاحتكاك الحركي f_k = 20 N."
+          ]
+        }
       },
       {
-        q: "MCQ 5: Momentum has the same dimensions as: (كمية التحرك لها نفس أبعاد:)",
-        options: [
-          "A. Force",
-          "B. Impulse (الدفع)",
-          "C. Energy",
-          "D. Power"
+        id: "incline",
+        title: "5. Motion on an Inclined Plane",
+        sentences: [
+          {
+            en: "Consider a block of mass m on an <w data-ar='مستوى مائل'>incline</w> of <w data-ar='زاوية ميل'>angle θ</w>.",
+            ar: "لنفترض وجود قالب كتلته m موضوع على مستوى مائل بزاوية ميل θ."
+          },
+          {
+            en: "Forces acting: <w data-ar='الوزن الكلي'>Weight (mg)</w> is resolved into <w data-ar='رد الفعل العمودي'>Normal reaction (N = mg cos θ)</w> and the <w data-ar='مركبة الوزن الموازية لأسفل المنحدر'>component down the plane (mg sin θ)</w>.",
+            ar: "القوى المؤثرة: يتحلل الوزن (mg) إلى قوة عمودية (N = mg cos θ) ومركبة موازية تسحب الجسم لأسفل المنحدر (mg sin θ)."
+          },
+          {
+            en: "Acceleration <w data-ar='بدون احتكاك (سطح أملس)'>without friction</w> is a = g sin θ, and <w data-ar='مع وجود احتكاك (سطح خشن)'>with friction</w> is a = g(sin θ − μ cos θ).",
+            ar: "التسارع بدون احتكاك (سطح أملس) هو a = g sin θ، ومع وجود احتكاك (سطح خشن) هو a = g(sin θ − μ cos θ)."
+          }
         ],
-        correct: 1,
-        explain: "Correct! Impulse = Force × time = change in momentum."
+        formulaHtml: `
+          <div>
+            <span class="eq-label">القوة العمودية (Normal Force)</span>
+            <div class="eq-box">
+              <span>N = m · g · cos θ</span>
+            </div>
+          </div>
+          <div>
+            <span class="eq-label">التسارع بدون احتكاك (Smooth)</span>
+            <div class="eq-box">
+              <span>a = g · sin θ</span>
+            </div>
+          </div>
+          <div>
+            <span class="eq-label">التسارع مع احتكاك (Rough)</span>
+            <div class="eq-box">
+              <span>a = g · (sin θ − μ · cos θ)</span>
+            </div>
+          </div>
+        `,
+        symbols: [
+          { sym: "θ", desc: "زاوية ميل السطح المائل عن الأفقي (Angle of incline)" },
+          { sym: "g", desc: "تسارع الجاذبية الأرضية (10 m/s²)" },
+          { sym: "mg sin θ", desc: "مركبة الوزن التي تسحب الجسم لأسفل المستوى المائل" },
+          { sym: "mg cos θ", desc: "مركبة الوزن العمودية التي تضغط على السطح وتساوي N" }
+        ],
+        challenge: {
+          qEn: "A block slides down a smooth (frictionless) incline of angle θ = 30° (where sin 30° = 0.5). Taking g = 10 m/s², find the acceleration (a) of the block in m/s².",
+          qAr: "ينزلق قالب لأسفل مستوى مائل أملس (عديم الاحتكاك) زاويته θ = 30° (علماً بأن sin 30° = 0.5). باعتبار g = 10 m/s²، أوجد تسارع القالب (a) بوحدة m/s².",
+          answer: 5,
+          hint1: "تلميح 1: السطح أملس (بدون احتكاك)، لذا استخدم القانون: a = g × sin θ.",
+          hint2: "تلميح 2: عوض عن g = 10 وعن sin 30° = 0.5 ثم اضرب الرقمين.",
+          steps: [
+            "الخطوة 1 (القانون): بما أن المستوى المائل أملس (Smooth)، نستخدم القانون a = g · sin θ.",
+            "الخطوة 2 (التعويض): نعوض بـ g = 10 m/s² و sin(30°) = 0.5 فنحصل على a = 10 × 0.5.",
+            "الخطوة 3 (الناتج النهائي): التسارع a = 5 m/s²."
+          ]
+        }
       },
       {
-        q: "MCQ 6: A block slides on a rough surface. Friction acts: (ينزلق قالب على سطح خشن، الاحتكاك يؤثر:)",
-        options: [
-          "A. In direction of motion",
-          "B. Perpendicular to motion",
-          "C. Opposite to relative motion (عكس اتجاه الحركة النسبية)",
-          "D. Vertically upward"
+        id: "atwood",
+        title: "6. Block-Pulley System (Atwood Machine)",
+        sentences: [
+          {
+            en: "In an <w data-ar='آلة أتوود (نظام البكرة والكتل)'>Atwood machine</w>, let two masses be <w data-ar='الكتلة الأولى أكبر من الثانية'>m₁ > m₂</w>, string <w data-ar='قوة الشد في الحبل'>tension = T</w>, and <w data-ar='تسارع النظام'>acceleration = a</w>.",
+            ar: "في آلة أتوود (نظام البكرة والكتل)، نفرض وجود كتلتين بحيث تكون الكتلة الأولى أكبر من الثانية (m₁ > m₂)، وقوة الشد في الحبل T، والتسارع a."
+          },
+          {
+            en: "Equation for heavier mass m₁ (moving down): m₁g − T = m₁a; Equation for lighter mass m₂ (moving up): T − m₂g = m₂a.",
+            ar: "معادلة الكتلة الأثقل m₁ (تتحرك لأسفل) هي: m₁g − T = m₁a؛ ومعادلة الكتلة الأخف m₂ (تتحرك لأعلى) هي: T − m₂g = m₂a."
+          }
         ],
-        correct: 2,
-        explain: "Correct! Friction always opposes relative motion."
-      },
-      {
-        q: "MCQ 7: For a block on a smooth incline, acceleration is: (على مستوى مائل أملس، التسارع يساوي:)",
-        options: [
-          "A. g cos θ",
-          "B. g sin θ",
-          "C. g tan θ",
-          "D. g / sin θ"
+        formulaHtml: `
+          <div>
+            <span class="eq-label">تسارع نظام البكرة (System Acceleration)</span>
+            <div class="eq-box">
+              <span>a = </span>
+              <span class="frac">
+                <span class="num">(m<sub>1</sub> − m<sub>2</sub>) · g</span>
+                <span class="den">m<sub>1</sub> + m<sub>2</sub></span>
+              </span>
+            </div>
+          </div>
+          <div>
+            <span class="eq-label">قوة الشد في الحبل (String Tension)</span>
+            <div class="eq-box">
+              <span>T = </span>
+              <span class="frac">
+                <span class="num">2 · m<sub>1</sub> · m<sub>2</sub> · g</span>
+                <span class="den">m<sub>1</sub> + m<sub>2</sub></span>
+              </span>
+            </div>
+          </div>
+        `,
+        symbols: [
+          { sym: "m₁", desc: "الكتلة الكبرى (الأثقل) بوحدة (kg) وتتحرك لأسفل" },
+          { sym: "m₂", desc: "الكتلة الصغرى (الأخف) بوحدة (kg) وتتحرك لأعلى" },
+          { sym: "a", desc: "تسارع النظام بوحدة (m/s²)؛ وإذا تساوت الكتلتان (m₁ = m₂) يكون a = 0" },
+          { sym: "T", desc: "قوة الشد في الحبل على طرفي البكرة بوحدة النيوتن (N)" }
         ],
-        correct: 1,
-        explain: "Correct! Without friction, a = g sin θ."
-      },
-      {
-        q: "MCQ 8: In an Atwood machine with equal masses, acceleration is: (في آلة أتوود بكتل متساوية، التسارع هو:)",
-        options: [
-          "A. g",
-          "B. g / 2",
-          "C. Zero (صفر)",
-          "D. Depends on tension"
-        ],
-        correct: 2,
-        explain: "Correct! Net force = 0 ⇒ no acceleration."
+        challenge: {
+          qEn: "In an Atwood machine, two masses m₁ = 7 kg and m₂ = 3 kg are connected over a frictionless pulley. Taking g = 10 m/s², calculate the acceleration (a) of the system in m/s².",
+          qAr: "في آلة أتوود، عُلقت كتلتان m₁ = 7 kg و m₂ = 3 kg عبر بكرة ملساء. باعتبار g = 10 m/s²، احسب تسارع النظام (a) بوحدة m/s².",
+          answer: 4,
+          hint1: "تلميح 1: استخدم قانون تسارع البكرة: البسط هو (m₁ - m₂) × g والمقام هو (m₁ + m₂).",
+          hint2: "تلميح 2: البسط = (7 - 3) × 10 = 40، والمقام = (7 + 3) = 10. اقسم البسط على المقام!",
+          steps: [
+            "الخطوة 1 (كتابة القانون): نستخدم قانون التسارع لآلة أتوود: a = [(m₁ − m₂) × g] / (m₁ + m₂).",
+            "الخطوة 2 (حساب البسط والمقام): البسط = (7 − 3) × 10 = 4 × 10 = 40. والمقام = 7 + 3 = 10.",
+            "الخطوة 3 (الناتج النهائي): نقسم البسط على المقام: a = 40 / 10 = 4 m/s²."
+          ]
+        }
       }
     ];
 
-    /**
-     * Updates the top gamification bar safely using textContent
-     */
-    function updateGamificationUI() {
-      const completedCount =
-        appState.completedSections.size +
-        appState.solvedExamples.size +
-        appState.solvedMcqs.size;
-      const pct = Math.min(100, Math.round((completedCount / appState.totalTasks) * 100));
-
-      document.getElementById('progress-fill').style.width = pct + '%';
-      document.getElementById('progress-text').textContent = pct + '%';
-      document.getElementById('xp-display').textContent = '⭐ ' + appState.xp + ' XP';
-
-      const rankEl = document.getElementById('rank-display');
-      if (pct === 100) {
-        rankEl.textContent = '👑 أسطورة الفيزياء (CSCA Master)';
-      } else if (pct >= 60) {
-        rankEl.textContent = '🚀 متقدم (Pro Solver)';
-      } else if (pct >= 25) {
-        rankEl.textContent = '⚡ متفاعل (Explorer)';
-      } else {
-        rankEl.textContent = '🌱 مبتدئ (Starter)';
+    // Official 8 MCQs from Day 2 PDF with 3-Attempt support & step-by-step explanations
+    const mcqsData = [
+      {
+        q: "MCQ 1: Which of the following best defines inertia?",
+        opts: [
+          "A. Resistance to acceleration",
+          "B. Resistance to change in motion",
+          "C. Resistance to force",
+          "D. Resistance to gravity"
+        ],
+        ans: 1,
+        hint: "تلميح: راجع تعريف Inertia في القسم الأول (ميل الجسم لمقاومة التغير في حالة حركته أو سكونه).",
+        explain: "الشرح الكامل: القصور الذاتي (Inertia) يُعرّف علمياً بأنه مقاومة الجسم لأي تغير في حالته الحركية أو السكونية (Resistance to change in state of rest or motion)."
+      },
+      {
+        q: "MCQ 2: Newton's first law is valid in:",
+        opts: [
+          "A. All frames",
+          "B. Only accelerated frames",
+          "C. Only inertial frames",
+          "D. Only rotating frames"
+        ],
+        ans: 2,
+        hint: "تلميح: راجع نقطة Key CSCA Point في القسم 1.1.",
+        explain: "الشرح الكامل: قانون نيوتن الأول يصح تطبيقه فقط في الأطر المرجعية القصورية غير المتسارعة (Only inertial frames)."
+      },
+      {
+        q: "MCQ 3: A body of mass 2 kg has acceleration 3 m/s². Force acting is:",
+        opts: ["A. 1.5 N", "B. 5 N", "C. 6 N", "D. 9 N"],
+        ans: 2,
+        hint: "تلميح: طبق قانون نيوتن الثاني F = m × a.",
+        explain: "الشرح الكامل: بتطبيق قانون نيوتن الثاني: F = m × a = 2 kg × 3 m/s² = 6 N."
+      },
+      {
+        q: "MCQ 4: Which pair is an action-reaction pair?",
+        opts: [
+          "A. Weight and normal",
+          "B. Tension and weight",
+          "C. Force on table by book & force on book by table",
+          "D. Friction and motion"
+        ],
+        ans: 2,
+        hint: "تلميح: قوتا الفعل ورد الفعل يجب أن تؤثرا على جسمين مختلفين (الكتاب والطاولة).",
+        explain: "الشرح الكامل: الفعل ورد الفعل يؤثران دائماً على جسمين مختلفين (قوة الكتاب على الطاولة، وقوة الطاولة على الكتاب)."
+      },
+      {
+        q: "MCQ 5: Momentum has the same dimensions as:",
+        opts: ["A. Force", "B. Impulse", "C. Energy", "D. Power"],
+        ans: 1,
+        hint: "تلميح: التغير في كمية التحرك (Δp = F × t) يساوي أي كمية فيزيائية؟",
+        explain: "الشرح الكامل: الدفع (Impulse) يساوي القوة × الزمن (Force × time)، وهو يساوي التغير في كمية التحرك (Change in momentum)، لذا لهما نفس الأبعاد."
+      },
+      {
+        q: "MCQ 6: A block slides on a rough surface. Friction acts:",
+        opts: [
+          "A. In direction of motion",
+          "B. Perpendicular to motion",
+          "C. Opposite to relative motion",
+          "D. Vertically upward"
+        ],
+        ans: 2,
+        hint: "تلميح: الاحتكاك يعاكس دائماً اتجاه انزلاق السطحين بالنسبة لبعضهما.",
+        explain: "الشرح الكامل: قوة الاحتكاك تعمل دائماً في الاتجاه المعاكس للحركة النسبية (Opposite to relative motion)."
+      },
+      {
+        q: "MCQ 7: For a block on a smooth incline, acceleration is:",
+        opts: ["A. g cos θ", "B. g sin θ", "C. g tan θ", "D. g / sin θ"],
+        ans: 1,
+        hint: "تلميح: المركبة الموازية للمنحدر هي mg sin θ، وعند القسمة على m ماذا يتبقى؟",
+        explain: "الشرح الكامل: على المستوى المائل الأملس (بدون احتكاك)، القوة المسببة للحركة هي mg sin θ، وبقسمتها على الكتلة m يكون التسارع a = g sin θ."
+      },
+      {
+        q: "MCQ 8: In an Atwood machine with equal masses, acceleration is:",
+        opts: ["A. g", "B. g / 2", "C. Zero", "D. Depends on tension"],
+        ans: 2,
+        hint: "تلميح: عوض بـ m₁ = m₂ في بسط قانون آلة أتوود: (m₁ - m₂)g.",
+        explain: "الشرح الكامل: عندما تتساوى الكتلتان (m₁ = m₂) تكون القوة المحصلة الصافية = 0، وبالتالي التسارع يساوي صفراً (Zero)."
       }
+    ];
+
+    // State Management
+    const state = {
+      xp: 0,
+      completedItems: new Set(),
+      totalItems: lessonsData.length + mcqsData.length,
+      challengeAttempts: {},
+      mcqAttempts: {},
+      allSentencesOpen: false
+    };
+
+    /**
+     * Converts custom <w data-ar="...">word</w> tags into interactive spans safely
+     */
+    function parseInteractiveSentence(rawHtml) {
+      return rawHtml.replace(
+        /<w data-ar=['"]([^'"]+)['"]>([^<]+)<\/w>/g,
+        '<span class="word-term" data-ar="$1">$2</span>'
+      );
     }
 
     /**
-     * Marks a study section as completed
+     * Updates top progress bar and XP display
      */
-    function markSectionComplete(secId, btnEl) {
-      if (appState.completedSections.has(secId)) return;
-      appState.completedSections.add(secId);
-      appState.xp += 20;
-      btnEl.classList.add('done');
-      btnEl.textContent = '✅ تم إتقان القسم (+20 XP)';
-      updateGamificationUI();
+    function updateHeaderProgress() {
+      const done = state.completedItems.size;
+      const pct = Math.min(100, Math.round((done / state.totalItems) * 100));
+      document.getElementById('prog-fill').style.width = pct + '%';
+      document.getElementById('prog-pct').textContent = pct + '%';
+      document.getElementById('xp-badge').textContent = '⭐ ' + state.xp + ' XP';
     }
 
     /**
-     * Checks numerical answers safely with tolerance
+     * Renders all lesson sections with interactive sentences, clear formulas, and 3-attempt challenges
      */
-    function checkNumericalExample(exId, expectedVal, inputId, feedbackId, explanationText) {
-      const rawVal = document.getElementById(inputId).value;
-      const userVal = parseFloat(rawVal);
-      const fbEl = document.getElementById(feedbackId);
+    function renderLessons() {
+      const root = document.getElementById('lessons-root');
+      lessonsData.forEach((sec, idx) => {
+        state.challengeAttempts[sec.id] = 0;
 
-      if (!Number.isFinite(userVal)) {
-        fbEl.style.color = 'var(--accent-amber)';
-        fbEl.textContent = '⚠️ الرجاء إدخال رقم صحيح أولاً.';
-        return;
-      }
+        const card = document.createElement('section');
+        card.className = 'section-card';
 
-      if (Math.abs(userVal - expectedVal) < 0.05) {
-        fbEl.style.color = 'var(--accent-green)';
-        fbEl.textContent = '✅ ' + explanationText;
-        if (!appState.solvedExamples.has(exId)) {
-          appState.solvedExamples.add(exId);
-          appState.xp += 15;
-          updateGamificationUI();
-        }
-      } else {
-        fbEl.style.color = 'var(--accent-red)';
-        fbEl.textContent = '❌ إجابة غير دقيقة، راجع القانون بالأعلى وحاول مرة أخرى!';
-      }
-    }
+        // Header
+        const header = document.createElement('div');
+        header.className = 'section-header';
+        const h2 = document.createElement('h2');
+        h2.className = 'section-title';
+        h2.textContent = sec.title;
+        header.appendChild(h2);
+        card.appendChild(header);
 
-    /**
-     * Interactive Calculator 1: Newton's Second Law & Momentum
-     */
-    function calcSecondLaw() {
-      const m = parseFloat(document.getElementById('c2-m').value);
-      const a = parseFloat(document.getElementById('c2-a').value);
-      const v = parseFloat(document.getElementById('c2-v').value);
-      const out = document.getElementById('c2-out');
+        // Interactive Sentences
+        const sentContainer = document.createElement('div');
+        sentContainer.className = 'sentences-wrapper';
 
-      if (!Number.isFinite(m) || !Number.isFinite(a) || !Number.isFinite(v) || m <= 0) {
-        out.style.color = 'var(--accent-red)';
-        out.textContent = '⚠️ يرجى إدخال قيم رقمية صحيحة وبكتلة موجبة (m > 0).';
-        return;
-      }
-      const F = (m * a).toFixed(2);
-      const p = (m * v).toFixed(2);
-      out.style.color = 'var(--accent-blue)';
-      out.textContent = `النتيجة: القوة المحصلة F = ${F} N | كمية التحرك (الزخم) p = ${p} kg·m/s`;
-    }
+        sec.sentences.forEach((sObj) => {
+          const sBlock = document.createElement('div');
+          sBlock.className = 'sentence-block';
 
-    /**
-     * Interactive Calculator 2: Static & Kinetic Friction
-     */
-    function calcFriction() {
-      const N = parseFloat(document.getElementById('c4-n').value);
-      const mus = parseFloat(document.getElementById('c4-mus').value);
-      const muk = parseFloat(document.getElementById('c4-muk').value);
-      const out = document.getElementById('c4-out');
+          const enDiv = document.createElement('div');
+          enDiv.className = 'sentence-en';
 
-      if (!Number.isFinite(N) || !Number.isFinite(mus) || !Number.isFinite(muk) || N < 0 || mus < 0 || muk < 0) {
-        out.style.color = 'var(--accent-red)';
-        out.textContent = '⚠️ يرجى إدخال قيم موجبة صحيحة.';
-        return;
-      }
-      const fsMax = (mus * N).toFixed(2);
-      const fk = (muk * N).toFixed(2);
-      const warn = muk >= mus ? ' (ملاحظة: في الواقع الفيزيائي يكون دائماً μ_k < μ_s)' : '';
-      out.style.color = 'var(--accent-blue)';
-      out.textContent = `أقصى احتكاك سكوني f_s,max = ${fsMax} N | الاحتكاك الحركي f_k = ${fk} N${warn}`;
-    }
+          const enTextSpan = document.createElement('span');
+          enTextSpan.innerHTML = parseInteractiveSentence(sObj.en);
 
-    /**
-     * Interactive Calculator 3: Inclined Plane
-     */
-    function calcIncline() {
-      const m = parseFloat(document.getElementById('c5-m').value);
-      const thetaDeg = parseFloat(document.getElementById('c5-theta').value);
-      const mu = parseFloat(document.getElementById('c5-mu').value);
-      const out = document.getElementById('c5-out');
+          const hintBadge = document.createElement('span');
+          hintBadge.className = 'translate-hint-badge';
+          hintBadge.textContent = 'اضغط لترجمة العبارة 🌐';
 
-      if (!Number.isFinite(m) || !Number.isFinite(thetaDeg) || !Number.isFinite(mu) || m <= 0 || thetaDeg < 0 || thetaDeg > 90 || mu < 0) {
-        out.style.color = 'var(--accent-red)';
-        out.textContent = '⚠️ تأكد من أن الكتلة موجبة والزاوية بين 0° و 90°.';
-        return;
-      }
-      const g = 10;
-      const rad = (thetaDeg * Math.PI) / 180;
-      const N = (m * g * Math.cos(rad)).toFixed(2);
-      const aSmooth = (g * Math.sin(rad)).toFixed(2);
-      const rawRough = g * (Math.sin(rad) - mu * Math.cos(rad));
-      const aRough = Math.max(0, rawRough).toFixed(2);
+          enDiv.appendChild(enTextSpan);
+          enDiv.appendChild(hintBadge);
 
-      out.style.color = 'var(--accent-blue)';
-      out.textContent = `رد الفعل العمودي N = ${N} N | تسارع السطح الأملس = ${aSmooth} m/s² | تسارع السطح الخشن = ${aRough} m/s²`;
-    }
+          const arDiv = document.createElement('div');
+          arDiv.className = 'sentence-ar';
+          arDiv.textContent = '💡 الترجمة: ' + sObj.ar;
 
-    /**
-     * Interactive Calculator 4: Atwood Machine
-     */
-    function calcAtwood() {
-      const m1 = parseFloat(document.getElementById('c6-m1').value);
-      const m2 = parseFloat(document.getElementById('c6-m2').value);
-      const g = parseFloat(document.getElementById('c6-g').value);
-      const out = document.getElementById('c6-out');
-
-      if (!Number.isFinite(m1) || !Number.isFinite(m2) || !Number.isFinite(g) || m1 <= 0 || m2 <= 0 || g <= 0) {
-        out.style.color = 'var(--accent-red)';
-        out.textContent = '⚠️ يجب أن تكون الكتل والجاذبية أرقاماً موجبة أكبر من الصفر.';
-        return;
-      }
-      const a = ((Math.abs(m1 - m2) * g) / (m1 + m2)).toFixed(2);
-      const T = ((2 * m1 * m2 * g) / (m1 + m2)).toFixed(2);
-      out.style.color = 'var(--accent-blue)';
-      out.textContent = `تسارع النظام a = ${a} m/s² | قوة الشد في الحبل T = ${T} N`;
-    }
-
-    /**
-     * Renders the 8 CSCA MCQs safely
-     */
-    function renderQuiz() {
-      const container = document.getElementById('quiz-container');
-      quizQuestions.forEach((item, idx) => {
-        const card = document.createElement('div');
-        card.className = 'mcq-item';
-
-        const qTitle = document.createElement('h4');
-        qTitle.textContent = item.q;
-        card.appendChild(qTitle);
-
-        const optsGrid = document.createElement('div');
-        optsGrid.className = 'mcq-options';
-
-        const fb = document.createElement('div');
-        fb.className = 'feedback-msg';
-
-        item.options.forEach((optText, optIdx) => {
-          const btn = document.createElement('button');
-          btn.className = 'mcq-btn';
-          btn.textContent = optText;
-          btn.addEventListener('click', () => {
-            Array.from(optsGrid.children).forEach(b => {
-              b.classList.remove('correct', 'wrong');
-            });
-            if (optIdx === item.correct) {
-              btn.classList.add('correct');
-              fb.style.color = 'var(--accent-green)';
-              fb.textContent = '✅ ' + item.explain;
-              if (!appState.solvedMcqs.has(idx)) {
-                appState.solvedMcqs.add(idx);
-                appState.xp += 10;
-                updateGamificationUI();
-              }
-            } else {
-              btn.classList.add('wrong');
-              fb.style.color = 'var(--accent-red)';
-              fb.textContent = '❌ إجابة خاطئة، حاول مرة أخرى!';
-            }
+          // Clicking the sentence block toggles full sentence translation
+          sBlock.addEventListener('click', () => {
+            sBlock.classList.toggle('open');
           });
-          optsGrid.appendChild(btn);
+
+          sBlock.appendChild(enDiv);
+          sBlock.appendChild(arDiv);
+          sentContainer.appendChild(sBlock);
+        });
+        card.appendChild(sentContainer);
+
+        // Crystal Clear Law Showcase + Symbol Legend
+        const lawBox = document.createElement('div');
+        lawBox.className = 'law-showcase';
+
+        const lawTitle = document.createElement('div');
+        lawTitle.className = 'law-showcase-title';
+        lawTitle.textContent = '📐 الصيغة الرياضية الواضحة للقانون ودليل الرموز';
+        lawBox.appendChild(lawTitle);
+
+        const eqRow = document.createElement('div');
+        eqRow.className = 'equations-row';
+        eqRow.innerHTML = sec.formulaHtml;
+        lawBox.appendChild(eqRow);
+
+        const legendGrid = document.createElement('div');
+        legendGrid.className = 'symbol-legend';
+        sec.symbols.forEach((symObj) => {
+          const item = document.createElement('div');
+          item.className = 'sym-item';
+
+          const charSpan = document.createElement('span');
+          charSpan.className = 'sym-char';
+          charSpan.textContent = symObj.sym;
+
+          const descSpan = document.createElement('span');
+          descSpan.textContent = symObj.desc;
+
+          item.appendChild(charSpan);
+          item.appendChild(descSpan);
+          legendGrid.appendChild(item);
+        });
+        lawBox.appendChild(legendGrid);
+        card.appendChild(lawBox);
+
+        // 3-Attempt Numerical Challenge
+        const ch = sec.challenge;
+        const chCard = document.createElement('div');
+        chCard.className = 'challenge-card';
+
+        const chTop = document.createElement('div');
+        chTop.className = 'challenge-top';
+
+        const chTitle = document.createElement('h4');
+        chTitle.textContent = `🎯 تطبيق رقمي على القانون (#${idx + 1})`;
+
+        const attemptsBadge = document.createElement('span');
+        attemptsBadge.className = 'attempts-badge';
+        attemptsBadge.id = `att-${sec.id}`;
+        attemptsBadge.textContent = 'المحاولات المتبقية: ❤️❤️❤️ (3/3)';
+
+        chTop.appendChild(chTitle);
+        chTop.appendChild(attemptsBadge);
+        chCard.appendChild(chTop);
+
+        const qEn = document.createElement('div');
+        qEn.className = 'challenge-question-en';
+        qEn.textContent = ch.qEn;
+        chCard.appendChild(qEn);
+
+        const qAr = document.createElement('div');
+        qAr.className = 'challenge-question-ar';
+        qAr.textContent = ch.qAr;
+        chCard.appendChild(qAr);
+
+        const ansRow = document.createElement('div');
+        ansRow.className = 'answer-row';
+
+        const inp = document.createElement('input');
+        inp.type = 'number';
+        inp.step = 'any';
+        inp.id = `inp-${sec.id}`;
+        inp.placeholder = 'أدخل الناتج الرقمي...';
+
+        const btnCheck = document.createElement('button');
+        btnCheck.className = 'btn-check';
+        btnCheck.id = `btn-${sec.id}`;
+        btnCheck.textContent = 'تحقق من الحل';
+
+        const btnReveal = document.createElement('button');
+        btnReveal.className = 'btn-reveal';
+        btnReveal.textContent = 'أظهر طريقة الحل 💡';
+
+        ansRow.appendChild(inp);
+        ansRow.appendChild(btnCheck);
+        ansRow.appendChild(btnReveal);
+        chCard.appendChild(ansRow);
+
+        const fbArea = document.createElement('div');
+        fbArea.className = 'feedback-area';
+        fbArea.id = `fb-${sec.id}`;
+        chCard.appendChild(fbArea);
+
+        const stepsBox = document.createElement('div');
+        stepsBox.className = 'solution-steps-box';
+        stepsBox.id = `steps-${sec.id}`;
+
+        const stepsTitle = document.createElement('h5');
+        stepsTitle.textContent = '📝 شرح خطوات الحل التفصيلية:';
+        stepsBox.appendChild(stepsTitle);
+
+        ch.steps.forEach((stText) => {
+          const line = document.createElement('div');
+          line.className = 'step-line';
+          line.textContent = stText;
+          stepsBox.appendChild(line);
+        });
+        chCard.appendChild(stepsBox);
+
+        // Event Listeners for 3-Attempt Numerical Challenge
+        btnCheck.addEventListener('click', () => {
+          handleNumericalAttempt(sec);
         });
 
-        card.appendChild(optsGrid);
-        card.appendChild(fb);
-        container.appendChild(card);
+        btnReveal.addEventListener('click', () => {
+          unlockSolution(sec, false);
+        });
+
+        card.appendChild(chCard);
+        root.appendChild(card);
       });
     }
 
-    // Initialize Quiz and Calculators on page load
+    /**
+     * Handles the 3-attempt logic for numerical problems
+     */
+    function handleNumericalAttempt(sec) {
+      const id = sec.id;
+      if (state.completedItems.has(id)) return;
+
+      const inpEl = document.getElementById(`inp-${id}`);
+      const fbEl = document.getElementById(`fb-${id}`);
+      const attEl = document.getElementById(`att-${id}`);
+      const userVal = parseFloat(inpEl.value);
+
+      if (!Number.isFinite(userVal)) {
+        fbEl.style.color = 'var(--accent-amber)';
+        fbEl.textContent = '⚠️ الرجاء كتابة رقم في خانة الإجابة أولاً (لا تُحتسب محاولة خاطئة).';
+        return;
+      }
+
+      if (Math.abs(userVal - sec.challenge.answer) < 0.05) {
+        unlockSolution(sec, true);
+        return;
+      }
+
+      // Wrong numeric guess -> increment attempts
+      state.challengeAttempts[id] += 1;
+      const used = state.challengeAttempts[id];
+      const left = Math.max(0, 3 - used);
+      const hearts = '❤️'.repeat(left) + '🖤'.repeat(used);
+      attEl.textContent = `المحاولات المتبقية: ${hearts} (${left}/3)`;
+
+      if (used === 1) {
+        fbEl.style.color = 'var(--accent-amber)';
+        fbEl.textContent = `❌ المحاولة الأولى غير صحيحة. ${sec.challenge.hint1}`;
+      } else if (used === 2) {
+        fbEl.style.color = 'var(--accent-amber)';
+        fbEl.textContent = `❌ المحاولة الثانية غير صحيحة. ${sec.challenge.hint2}`;
+      } else {
+        // 3rd wrong attempt -> Auto unlock full solution and move on!
+        unlockSolution(sec, false);
+      }
+    }
+
+    /**
+     * Unlocks the step-by-step solution, fills the right answer, and prevents infinite loops
+     */
+    function unlockSolution(sec, isSolvedByUser) {
+      const id = sec.id;
+      const inpEl = document.getElementById(`inp-${id}`);
+      const btnEl = document.getElementById(`btn-${id}`);
+      const fbEl = document.getElementById(`fb-${id}`);
+      const stepsEl = document.getElementById(`steps-${id}`);
+      const attEl = document.getElementById(`att-${id}`);
+
+      inpEl.value = sec.challenge.answer;
+      inpEl.disabled = true;
+      btnEl.disabled = true;
+      stepsEl.classList.add('visible');
+
+      if (!state.completedItems.has(id)) {
+        state.completedItems.add(id);
+        state.xp += isSolvedByUser ? 25 : 10;
+        updateHeaderProgress();
+      }
+
+      if (isSolvedByUser) {
+        fbEl.style.color = 'var(--accent-emerald)';
+        fbEl.textContent = `✅ إجابة صحيحة! أحسنت، الجواب هو ${sec.challenge.answer}. تم فتح خطوات الحل للتأكيد (+25 XP).`;
+      } else {
+        attEl.textContent = 'تم كشف الحل الكامل 🔓';
+        fbEl.style.color = 'var(--accent-cyan)';
+        fbEl.textContent = `💡 الإجابة الصحيحة هي (${sec.challenge.answer}). اقرأ خطوات الحل المفصلة بالأسفل لتفهم الطريقة وتكمل الدرس (+10 XP).`;
+      }
+    }
+
+    /**
+     * Renders MCQs with 3-attempt limit
+     */
+    function renderMcqs() {
+      const root = document.getElementById('mcqs-root');
+      mcqsData.forEach((mObj, idx) => {
+        const mId = `mcq-${idx}`;
+        state.mcqAttempts[mId] = 0;
+
+        const card = document.createElement('div');
+        card.className = 'mcq-card';
+
+        const top = document.createElement('div');
+        top.className = 'mcq-top';
+
+        const title = document.createElement('h4');
+        title.style.direction = 'ltr';
+        title.textContent = mObj.q;
+
+        const attBadge = document.createElement('span');
+        attBadge.className = 'attempts-badge';
+        attBadge.id = `att-${mId}`;
+        attBadge.textContent = 'المحاولات: ❤️❤️❤️ (3/3)';
+
+        top.appendChild(title);
+        top.appendChild(attBadge);
+        card.appendChild(top);
+
+        const grid = document.createElement('div');
+        grid.className = 'mcq-grid';
+
+        const fb = document.createElement('div');
+        fb.className = 'feedback-area';
+
+        const stepsBox = document.createElement('div');
+        stepsBox.className = 'solution-steps-box';
+        const stLine = document.createElement('div');
+        stLine.className = 'step-line';
+        stLine.textContent = mObj.explain;
+        stepsBox.appendChild(stLine);
+
+        mObj.opts.forEach((optText, oIdx) => {
+          const btn = document.createElement('button');
+          btn.className = 'mcq-opt';
+          btn.textContent = optText;
+
+          btn.addEventListener('click', () => {
+            if (state.completedItems.has(mId)) return;
+
+            if (oIdx === mObj.ans) {
+              btn.classList.add('correct');
+              Array.from(grid.children).forEach(b => (b.disabled = true));
+              fb.style.color = 'var(--accent-emerald)';
+              fb.textContent = '✅ إجابة صحيحة! (+15 XP)';
+              stepsBox.classList.add('visible');
+              state.completedItems.add(mId);
+              state.xp += 15;
+              updateHeaderProgress();
+            } else {
+              btn.classList.add('wrong');
+              btn.disabled = true;
+              state.mcqAttempts[mId] += 1;
+              const used = state.mcqAttempts[mId];
+              const left = Math.max(0, 3 - used);
+              attBadge.textContent = `المحاولات: ${'❤️'.repeat(left)}${'🖤'.repeat(used)} (${left}/3)`;
+
+              if (used < 3) {
+                fb.style.color = 'var(--accent-amber)';
+                fb.textContent = `❌ خطأ (${used}/3). ${mObj.hint}`;
+              } else {
+                // 3 tries exhausted -> reveal correct option and explanation
+                Array.from(grid.children).forEach((b, bIdx) => {
+                  b.disabled = true;
+                  if (bIdx === mObj.ans) b.classList.add('correct');
+                });
+                attBadge.textContent = 'تم كشف الحل 🔓';
+                fb.style.color = 'var(--accent-cyan)';
+                fb.textContent = '💡 استنفدت 3 محاولات؛ تم تحديد الإجابة الصحيحة بالأخضر مع الشرح بالأسفل (+5 XP).';
+                stepsBox.classList.add('visible');
+                state.completedItems.add(mId);
+                state.xp += 5;
+                updateHeaderProgress();
+              }
+            }
+          });
+
+          grid.appendChild(btn);
+        });
+
+        card.appendChild(grid);
+        card.appendChild(fb);
+        card.appendChild(stepsBox);
+        root.appendChild(card);
+      });
+    }
+
+    /**
+     * Word-Level Click Tooltip Handler (Stops propagation so sentence doesn't toggle)
+     */
+    function setupWordTooltips() {
+      const tooltip = document.getElementById('word-tooltip');
+      const ttEn = document.getElementById('tt-en-text');
+      const ttAr = document.getElementById('tt-ar-text');
+
+      document.addEventListener('click', (e) => {
+        const wordEl = e.target.closest('.word-term');
+        if (wordEl) {
+          e.stopPropagation(); // Prevents triggering the full sentence click
+          const enWord = wordEl.textContent;
+          const arTrans = wordEl.getAttribute('data-ar');
+
+          ttEn.textContent = enWord;
+          ttAr.textContent = arTrans;
+          tooltip.style.display = 'block';
+
+          const rect = wordEl.getBoundingClientRect();
+          const topPos = Math.max(10, rect.top - 68);
+          const leftPos = Math.min(window.innerWidth - 220, Math.max(10, rect.left));
+
+          tooltip.style.top = topPos + 'px';
+          tooltip.style.left = leftPos + 'px';
+        } else {
+          tooltip.style.display = 'none';
+        }
+      });
+
+      window.addEventListener('scroll', () => {
+        tooltip.style.display = 'none';
+      });
+    }
+
+    /**
+     * Master Toggle for all sentence translations
+     */
+    function toggleAllSentences() {
+      state.allSentencesOpen = !state.allSentencesOpen;
+      document.querySelectorAll('.sentence-block').forEach((blk) => {
+        if (state.allSentencesOpen) {
+          blk.classList.add('open');
+        } else {
+          blk.classList.remove('open');
+        }
+      });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-      renderQuiz();
-      calcSecondLaw();
-      calcFriction();
-      calcIncline();
-      calcAtwood();
-      updateGamificationUI();
+      renderLessons();
+      renderMcqs();
+      setupWordTooltips();
+      updateHeaderProgress();
     });
   </script>
 </body>
